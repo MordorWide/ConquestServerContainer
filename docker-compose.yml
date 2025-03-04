@@ -1,0 +1,13 @@
+
+services:
+  conquest-gameserver:
+    build: .
+    image: mordorwide/dedicated:latest
+    container_name: ConquestGameServer
+    volumes:
+      - ./Dedicated.xml:/home/cqds/Dedicated.xml:ro
+    ports:
+      # This port should match the port which is
+      # defined in the Dedicated.xml config file.
+      - 11900:11900
+    restart: unless-stopped
