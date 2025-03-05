@@ -144,6 +144,7 @@ scp docker-compose.yml   main@server:~/mordorwide-dedicated/docker-compose.yml
 ssh main@server << 'EOF'
 set -e
 cd ~/mordorwide-dedicated
+docker load < img-dedicated.tar.gz
 docker compose up -d
 EOF
 ```

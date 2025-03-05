@@ -60,19 +60,9 @@ export DISPLAY=:0
 sudo rm -rf /tmp/.* || true
 sudo rm -rf "/tmp/.X${DISPLAY}-lock" || true
 sudo rm -rf "/tmp/.X11-unix" || true
-sudo mkdir /tmp/.X11-unix
-sudo chmod 1777 /tmp/.X11-unix
-sudo chown root:root /tmp/.X11-unix
-
 
 # Start Xorg (with hidden stdout/stderr)...
-sudo ls -a /tmp
-echo ".."
-ps -aux
-echo ".."
-
-
-sudo Xorg "$DISPLAY" -config /etc/X11/xorg.conf -nolisten tcp -listen unix -noreset +extension GLX +extension RANDR +extension RENDER &
+sudo Xorg "$DISPLAY" -config /etc/X11/xorg.conf -nolisten tcp -listen unix -noreset +extension GLX +extension RANDR +extension RENDER >/dev/null 2>&1 &
 XORG_PID=$!
 sleep 2
 
