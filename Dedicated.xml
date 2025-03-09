@@ -14,8 +14,8 @@
         <!-- Max. number of players (max. 16)-->
         <MaxSlots>16</MaxSlots>
         <MaxAllowedConnectionQuality>2</MaxAllowedConnectionQuality>
-        <!-- (hidden option) Don't connect to EA Nation (for LAN-only): true/false -->
-        <UseLAN>true</UseLAN>
+        <!-- (hidden option) Don't connect to EA Nation (for LAN-only, default: false): true/false -->
+        <UseLAN>false</UseLAN>
         <!-- (hidden option) Define frame rate (default: 25, max: 30) -->
         <LockFrameRate>25</LockFrameRate>
     </Network>
