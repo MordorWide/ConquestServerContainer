@@ -32,10 +32,6 @@ function installDedicatedServer() {
         wineboot --init
         sleep 1
 
-        # Install Mono
-        wget https://dl.winehq.org/wine/wine-mono/9.4.0/wine-mono-9.4.0-x86.msi -O wine-mono.msi
-        wine msiexec /i wine-mono.msi
-
         # Install Visual C++ 2010 Redistributable
         winetricks -q vcrun2010
 
