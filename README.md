@@ -1,6 +1,6 @@
 # Dedicated Server Container
 
-This repository provides the code to run the dedicated server files of the game `The Lord of the Rings: Conquest` headless as a containerized service using Docker and Wine.
+This repository provides the code to run the dedicated server files of the game `The Lord of the Rings: Conquest` headlessly as a containerized service using Docker and Wine.
 
 # How to Use
 ## Install
@@ -12,7 +12,7 @@ This repository provides the code to run the dedicated server files of the game 
 sudo usermod -aG docker $USER
 ```
 3. Reboot to apply the changes
-4. Get the `Conquest Dedicated Server` setup archive, e.g. from ausgamers.com](https://www.ausgamers.com/files/download/42316/lord-of-the-rings-conquest-dedicated-pc-server) and put it into the `data` directory as `data/LOTR_Conquest_Server_PC.zip`.
+4. Get the `Conquest Dedicated Server` setup archive, e.g. [from ausgamers.com](https://www.ausgamers.com/files/download/42316/lord-of-the-rings-conquest-dedicated-pc-server) and put it into the `data` directory as `data/LOTR_Conquest_Server_PC.zip`.
 <details>
 <summary>Verification for file: LOTR_Conquest_Server_PC.zip</summary>
 
