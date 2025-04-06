@@ -1,0 +1,82 @@
+FROM ubuntu:24.04
+
+# Install dependencies
+ENV DEBIAN_FRONTEND=noninteractive
+RUN dpkg --add-architecture i386 && apt-get update && \
+    apt-get install -y \
+    winetricks \
+    unzip \
+    xdotool \
+    sudo \
+    wine wine32 \
+    xorg xinit \
+    xserver-xorg-video-dummy \
+    libgl1 \
+    libgl1-mesa-dri \
+    x11vnc \
+    wget \
+    imagemagick jp2a \
+    xz-utils \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Setup Xorg
+COPY src/xorg.conf /etc/X11/xorg.conf
+RUN echo "allowed_users=anybody" > /etc/X11/Xwrapper.config
+
+# Create a non-root user steamuser
+RUN NEW_UID=$(awk -F: '{if ($3 >= 1000) print $3}' /etc/passwd | sort -n | awk 'END{print $1+1}') \
+    && useradd -u $NEW_UID -s /bin/bash -m steamuser \
+    && usermod -aG sudo steamuser \
+    && usermod -aG video steamuser \
+    && echo "steamuser ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/steamuser \
+    && chmod 0440 /etc/sudoers.d/steamuser
+
+# Extract Wine-GE-custom
+RUN wget https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-26/wine-lutris-GE-Proton8-26-x86_64.tar.xz \
+        -O /wine-ge-custom-8-26.tar.xz
+RUN tar --xz -xf /wine-ge-custom-8-26.tar.xz && rm /wine-ge-custom-8-26.tar.xz && \
+    mv /lutris-GE-Proton8-26-x86_64 /wine-ge
+
+# Setup custom Wine (Wine-GE-custom)
+ENV PATH="/wine-ge/bin:$PATH"
+ENV LD_LIBRARY_PATH="/wine-ge/lib:/wine-ge/lib64:$LD_LIBRARY_PATH"
+
+USER steamuser
+WORKDIR /home/steamuser
+
+# Download latest ConquestServer.exe (Server launcher)
+RUN wget https://github.com/MordorWide/ConquestServerPatch/releases/latest/download/ConquestServer.exe \
+    -O ConquestServer.exe
+#COPY --chmod=0644 --chown=steamuser ConquestServer.exe /home/steamuser/ConquestServer.exe
+
+# Download Mono
+RUN wget https://dl.winehq.org/wine/wine-mono/9.4.0/wine-mono-9.4.0-x86.msi \
+    -O wine-mono.msi
+
+# Copy large data items
+COPY --chown=steamuser data/LOTR_Conquest_Server_PC.zip /home/steamuser/LOTR_Conquest_Server_PC.zip
+COPY --chown=steamuser data/DLC_Files.zip /home/steamuser/DLC_Files.zip
+
+# Run script to host Server setup
+COPY --chown=steamuser --chmod=0744 src/mkServerSetup.sh /home/steamuser/mkServerSetup.sh
+RUN bash ./mkServerSetup.sh && rm ./mkServerSetup.sh
+
+# Add Server runner script
+COPY --chmod=0744 --chown=steamuser src/runServerSetup.sh /home/steamuser/
+COPY --chown=steamuser Dedicated.xml /home/steamuser/
+
+# Add shuffle script
+COPY --chmod=0744 --chown=steamuser src/shuffleLevels.py /home/steamuser/
+
+# Add screenshot tool
+COPY --chmod=0744 --chown=steamuser src/screenshot.sh /home/steamuser/
+CMD ["./runServerSetup.sh"]
+
+# DLC ADDITIONS
+# Copy DLC file
+COPY --chown=steamuser data/DLC_Files.zip /home/steamuser/DLC_Files.zip
+
+# Run script to host Server setup
+COPY --chown=steamuser --chmod=0744 src/addDLCFiles.sh /home/steamuser/addDLCFiles.sh
+RUN bash ./addDLCFiles.sh && rm ./addDLCFiles.sh

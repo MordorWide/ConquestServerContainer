@@ -1,0 +1,35 @@
+
+services:
+  conquest-gameserver-base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: mordorwide/dedicated-base:latest
+    container_name: ConquestGameServer-11900
+    volumes:
+      - ./Dedicated.xml:/home/steamuser/Dedicated.xml:ro
+    ports:
+      # This port should match the port which is
+      # defined in the Dedicated.xml config file.
+      - "11900:11900/udp"
+    environment:
+      # Shuffles the levels before lanuching the server.
+      - SHUFFLE_LEVELS=1
+    restart: unless-stopped
+
+  conquest-gameserver-dlc:
+    build:
+      context: .
+      dockerfile: Dockerfile.dlc
+    image: mordorwide/dedicated-dlc:latest
+    container_name: ConquestGameServer-11901
+    volumes:
+      - ./Dedicated_DLC.xml:/home/steamuser/Dedicated.xml:ro
+    ports:
+      # This port should match the port which is
+      # defined in the Dedicated.xml config file.
+      - "11901:11901/udp"
+    environment:
+      # Shuffles the levels before lanuching the server.
+      - SHUFFLE_LEVELS=0
+    restart: unless-stopped

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+    <Plasma>
+        <!-- Name of the game on the server browser -->
+        <GameName>Game Name</GameName>
+        <!-- (UDP) Game Port (must be forwarded by the firewall, and docker-compose.yml): default: 11900 -->
+        <Port>11901</Port>
+        <!-- Username (not Persona!) of the hosting account -->
+        <Username>USERNAME</Username>
+        <Password>PASSWORD</Password>
+        <Adapter />
+    </Plasma>
+    <Network>
+        <!-- Max. number of players (max. 16)-->
+        <MaxSlots>16</MaxSlots>
+        <MaxAllowedConnectionQuality>2</MaxAllowedConnectionQuality>
+        <!-- (hidden option) Don't connect to EA Nation (for LAN-only, default: false): true/false -->
+        <UseLAN>false</UseLAN>
+        <!-- (hidden option) Define frame rate (default: 25, max: 30) -->
+        <LockFrameRate>25</LockFrameRate>
+    </Network>
+    <Debug>
+        <!-- (hidden option) Write fps logs: true/false -->
+        <LogFPS>false</LogFPS>
+    </Debug>
+    <Session>
+        <!-- Difficulty - 0: Casual, 1: Heroic, 2: Legendary -->
+        <Difficulty>1</Difficulty>
+        <!-- HeroAssignment - 0: Highest Points, 1: Random, 2: Never -->
+        <HeroAssignment>0</HeroAssignment>
+        <!-- Conquest Victory Points -->
+        <ConquestVP>1000</ConquestVP>
+        <!-- CTR (Capture the Ring/Flag) Victory Points -->
+        <CTFVP>5</CTFVP>
+        <!-- Team Deathmatch Victory Points -->
+        <TDMVP>50</TDMVP>
+        <!-- TimeLimit: x = 0 (deactivated), X > 0 -> X minutes -->
+        <TimeLimit>15</TimeLimit>
+        <!-- Team Balance: true/false -->
+        <AutoBalance>true</AutoBalance>
+        <!-- Enable AI: true/false -->
+        <UseAI>true</UseAI>
+        <!-- (hidden option) Looping levels infinitely: true/false -->
+        <LoopLevels>true</LoopLevels>
+        <!-- (hidden option) Min. player count to start games: default: 2 -->
+        <MinPlayerCount>2</MinPlayerCount>
+    </Session>
+    <Levels>
+        <!-- Main Game-->
+        <Level Name="BlackGates" Mode="Conquest" />
+        <Level Name="BlackGates" Mode="hero_teamdm" />
+        <Level Name="Helm&apos;sDeep" Mode="Conquest" />
+        <Level Name="Helm&apos;sDeep" Mode="teamdm" />
+        <Level Name="Isengard" Mode="Conquest" />
+        <Level Name="Isengard" Mode="teamdm" />
+        <Level Name="Minas_Morgul" Mode="Conquest" />
+        <Level Name="Minas_Morgul" Mode="ctr" />
+        <Level Name="Minas_Morgul" Mode="hero_teamdm" />
+        <Level Name="minastirith" Mode="Conquest" />
+        <Level Name="minastirith" Mode="teamdm" />
+        <Level Name="minastirith_top" Mode="ctr" />
+        <Level Name="minastirith_top" Mode="teamdm" />
+        <Level Name="Moria" Mode="Conquest" />
+        <Level Name="Moria" Mode="ctr" />
+        <Level Name="Moria" Mode="teamdm" />
+        <Level Name="Mount_Doom" Mode="Conquest" />
+        <Level Name="Mount_Doom" Mode="ctr" />
+        <Level Name="Mount_Doom" Mode="hero_teamdm" />
+        <Level Name="osgiliath" Mode="Conquest" />
+        <Level Name="osgiliath" Mode="teamdm" />
+        <Level Name="pelennorfields" Mode="Conquest" />
+        <Level Name="pelennorfields" Mode="ctr" />
+        <Level Name="pelennorfields" Mode="teamdm" />
+        <Level Name="Rivendell" Mode="Conquest" />
+        <Level Name="Rivendell" Mode="ctr" />
+        <Level Name="Rivendell" Mode="teamdm" />
+        <Level Name="Shire" Mode="Conquest" />
+        <Level Name="Shire" Mode="ctr" />
+        <Level Name="Shire" Mode="hero_teamdm" />
+        <Level Name="Weathertop" Mode="Conquest" />
+        <Level Name="Weathertop" Mode="teamdm" />
+        <!-- DLC -->
+        <Level Name="Moria_DLC" Mode="hero_teamdm" />
+        <Level Name="Osgiliath_DLC" Mode="hero_teamdm" />
+        <Level Name="Amon_Hen" Mode="Conquest" />
+        <Level Name="Amon_Hen" Mode="ctr" />
+        <Level Name="Amon_Hen" Mode="teamdm" />
+        <Level Name="LastAlliance_DLC" Mode="Conquest" />
+        <Level Name="LastAlliance_DLC" Mode="ctr" />
+        <Level Name="LastAlliance_DLC" Mode="teamdm" />
+        <Level Name="MinasTirithBottom_DLC" Mode="hero_teamdm" />
+        <Level Name="Weathertop_DLC" Mode="hero_teamdm" />
+    </Levels>
+</Config>
