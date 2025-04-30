@@ -109,6 +109,44 @@ if [ ! -z "$WINE_PATCHED_GAMESERVER_PID" ]; then
     echo ""
     echo "Patched game server has PID: $WINE_PATCHED_GAMESERVER_PID"
     echo "The server seems to run fine.... :)"
+
+    # Check if a custom internal IP should be reported to the master server
+    if [ ! -z "$MORDORWIDE_INTERNAL_IP" ]; then
+        # Define relevant variables
+        MORDORWIDE_HOST="${MORDORWIDE_HOST:-https://mordorwi.de}"
+
+        echo "Setting internal IP to $MORDORWIDE_INTERNAL_IP to MordorWide backend $MORDORWIDE_HOST..."
+        MORDORWIDE_USERNAME="$(cat "$ConquestServerConfigFile" | grep -oP '(?<=<Username>).*(?=</Username>)')"
+        MORDORWIDE_PASSWORD="$(cat "$ConquestServerConfigFile" | grep -oP '(?<=<Password>).*(?=</Password>)')"
+        MORDORWIDE_GAMENAME="$(cat "$ConquestServerConfigFile" | grep -oP '(?<=<GameName>).*(?=</GameName>)')"
+
+        # Check if the username and password are set
+        if [ -z "$MORDORWIDE_USERNAME" ] || [ -z "$MORDORWIDE_PASSWORD" ]; then
+            echo "Username and password are not set in the config file. Leave internal IP as it is..."
+        else
+            MORDORWIDE_UNVERIFIED="${MORDORWIDE_UNVERIFIED:-0}"
+            CURL_ARGS=""
+            if [ "$MORDORWIDE_UNVERIFIED" -eq 1 ]; then
+                CURL_ARGS="--insecure"
+            fi
+            ENDPOINT="${MORDORWIDE_HOST}/api/private-ip"
+
+            # Wait for the server to be up and running
+            echo "Waiting for 30 seconds for the server to create the game at the master server..."
+            sleep 30
+
+            # Try to report the internal IP to the MordorWide backend
+            echo "Reporting internal IP to MordorWide backend..."
+            curl -X PATCH "$ENDPOINT" \
+                $CURL_ARGS \
+                -H "Content-Type: application/json" \
+                -u "$MORDORWIDE_USERNAME:$MORDORWIDE_PASSWORD" \
+                -d '{"internal_ip":"'"$MORDORWIDE_INTERNAL_IP"'","game_name":"'"$MORDORWIDE_GAMENAME"'"}' > /dev/null 2>&1 || true
+            echo "Reported internal IP to MordorWide backend..."
+        fi
+    fi
+
+    echo ""
     echo "Waiting until the server closes or prints an error message..."
     echo ""
 

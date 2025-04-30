@@ -15,6 +15,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     libgl1-mesa-dri \
     x11vnc \
     wget \
+    curl \
     imagemagick jp2a \
     xz-utils \
     python3 \
