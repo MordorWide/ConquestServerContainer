@@ -52,5 +52,4 @@ services:
       #- MORDORWIDE_HOST=https://mordorwi.de
       ## > The custom, internal IP of the server
       #- MORDORWIDE_INTERNAL_IP=192.168.1.200
-
     restart: unless-stopped
