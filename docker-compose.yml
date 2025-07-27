@@ -16,6 +16,8 @@ services:
     environment:
       # Shuffles the levels before lanuching the server (0/1).
       - SHUFFLE_LEVELS=1
+      # Print the screen at server errors to the log via OCR (0/1).
+      - OCR_SERVER_ERROR=1
       ## These following variables are only needed if a custom internal IP should be set at the master server.
       ## > Allow unverified HTTPS connections (0/1)
       #- MORDORWIDE_UNVERIFIED=0
@@ -41,6 +43,8 @@ services:
     environment:
       # Shuffles the levels before lanuching the server (0/1).
       - SHUFFLE_LEVELS=0
+      # Print the screen at server errors to the log via OCR (0/1).
+      - OCR_SERVER_ERROR=1
       ## These following variables are only needed if a custom internal IP should be set at the master server.
       ## > Allow unverified HTTPS connections (0/1)
       #- MORDORWIDE_UNVERIFIED=0

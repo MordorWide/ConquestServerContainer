@@ -164,8 +164,19 @@ if [ ! -z "$WINE_PATCHED_GAMESERVER_PID" ]; then
         X_ERROR_WINDOW=$(xdotool search --name 'Server Error' || true)
         if [ ! -z "$X_ERROR_WINDOW" ]; then
             # Server Error reported....
-            echo "A 'Server Error' has been triggered. Pressing 'Enter' to let the game server shut down..."
+            echo "A 'Server Error' has been triggered."
+            echo ''
 
+            # Reading screen if env var OCR_SERVER_ERROR is set and evaluates to "true"....
+            if [[ "${OCR_SERVER_ERROR:-0}" == "1" ]]; then
+                echo "Reading error message from screen..."
+                echo '```'
+                DISPLAY=:0 sudo xwd -root -display :0 | convert xwd:- png:- | tesseract stdin stdout 2>/dev/null
+                echo '```'
+                echo ''
+            fi
+
+            echo "Pressing 'Enter' to let the game server shut down..."
             # Pressing Return key to confirm the error message (leading the sever to shut down subsequently)
             xdotool key --window "$X_ERROR_WINDOW" Return
             echo "Pressed Return... Waiting to let the server process the input and shut itself down...."

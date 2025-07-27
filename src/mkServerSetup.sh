@@ -106,10 +106,8 @@ function patchDedicatedServer() {
 }
 
 function cleanupFiles() {
-    # Cleanup the Install and DLC folders and files
+    # Cleanup the Install folders and files
     rm -rf Data_Setup LOTR_Conquest_Server_PC.zip
-    # Remove Mono
-    rm -f wine-mono.msi
     # Clean winetricks cache...
     rm -rf .cache
     # Remove the Server Launcher

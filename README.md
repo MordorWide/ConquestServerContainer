@@ -114,13 +114,14 @@ docker build -t mordorwide/dedicated-dlc:latest -f Dockerfile.dlc .
 * Each server should should get an individual `Dedicated.xml` server configuration.
 * The port forwarding (default `11900:11900`) should match the port defined in the `Dedicated.xml` or `Dedicated_DLC.xml` file.
 * Set `SHUFFLE_LEVELS=1` to shuffle the level order at the startup of the server.
+* Set `OCR_SERVER_ERROR=1` to use OCR-based error logging for encountered server errors.
 
 3. Launch the dedicated server.
 ```bash
 docker compose up -d
 ```
 
-3. Track the server by:
+4. Track the server log with:
 ```bash
 docker compose logs -f
 ```
@@ -128,10 +129,24 @@ docker compose logs -f
 ## Utilities
 
 ### Make a screenshot
-You can make a screenshot from the running server instance as follows:
+You can make a screenshot of the running server instance as follows:
 ```
 # Assuming ConquestGameServer-11900 as container name
 docker exec ConquestGameServer-11900 ./screenshot.sh > screenshot.png
+```
+
+### Make a screenread (via OCR)
+You can make a text-based print of the running server instance as follows:
+```
+# Assuming ConquestGameServer-11900 as container name
+docker exec ConquestGameServer-11900 ./screentext.sh
+```
+
+### Make a text-based screenshot (hilarious)
+You can make a text-based screenshot of the running server instance as follows:
+```
+# Assuming ConquestGameServer-11900 as container name
+docker exec ConquestGameServer-11900 bash -c './screenshot.sh | jp2a --colors -'
 ```
 
 ### Build and load image

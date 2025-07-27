@@ -16,7 +16,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     x11vnc \
     wget \
     curl \
-    imagemagick jp2a \
+    imagemagick jp2a tesseract-ocr \
     xz-utils \
     python3 \
     && rm -rf /var/lib/apt/lists/*
@@ -49,15 +49,9 @@ WORKDIR /home/steamuser
 # Download latest ConquestServer.exe (Server launcher)
 RUN wget https://github.com/MordorWide/ConquestServerPatch/releases/latest/download/ConquestServer.exe \
     -O ConquestServer.exe
-#COPY --chmod=0644 --chown=steamuser ConquestServer.exe /home/steamuser/ConquestServer.exe
-
-# Download Mono
-RUN wget https://dl.winehq.org/wine/wine-mono/9.4.0/wine-mono-9.4.0-x86.msi \
-    -O wine-mono.msi
 
 # Copy large data items
 COPY --chown=steamuser data/LOTR_Conquest_Server_PC.zip /home/steamuser/LOTR_Conquest_Server_PC.zip
-COPY --chown=steamuser data/DLC_Files.zip /home/steamuser/DLC_Files.zip
 
 # Run script to host Server setup
 COPY --chown=steamuser --chmod=0744 src/mkServerSetup.sh /home/steamuser/mkServerSetup.sh
@@ -66,12 +60,15 @@ RUN bash ./mkServerSetup.sh && rm ./mkServerSetup.sh
 # Add Server runner script
 COPY --chmod=0744 --chown=steamuser src/runServerSetup.sh /home/steamuser/
 COPY --chown=steamuser Dedicated.xml /home/steamuser/
+# Set server error pint to 1 as default
+ENV OCR_SERVER_ERROR="1"
 
 # Add shuffle script
 COPY --chmod=0744 --chown=steamuser src/shuffleLevels.py /home/steamuser/
 
-# Add screenshot tool
+# Add screenshot & screentext tool
 COPY --chmod=0744 --chown=steamuser src/screenshot.sh /home/steamuser/
+COPY --chmod=0744 --chown=steamuser src/screentext.sh /home/steamuser/
 CMD ["./runServerSetup.sh"]
 
 # DLC ADDITIONS
